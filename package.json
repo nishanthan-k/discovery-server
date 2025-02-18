@@ -26,7 +26,8 @@
   "homepage": "https://github.com/nishanthan-k/discovery-server#readme",
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
