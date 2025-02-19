@@ -8,6 +8,8 @@ dotenv.config({ path: 'dev.env' });
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(express.json());
+
 app.use('/api/registers', registerRoutes)
 
 // app.get("/", asyncHandler((req: Request, res: Response) => res.send("Hii ")));
