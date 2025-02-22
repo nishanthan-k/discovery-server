@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import asyncHandler from "../utils/asyncHandler";
+import asyncHandler from "../global/utils/asyncHandler";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
 

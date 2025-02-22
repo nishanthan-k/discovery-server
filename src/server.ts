@@ -1,7 +1,9 @@
-import express, { Request, Response } from 'express';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import dotenv from 'dotenv';
-import asyncHandler from './utils/asyncHandler';
+import express, { Request, Response } from 'express';
+import asyncHandler from './global/utils/asyncHandler';
 import registerRoutes from './routes/register.route';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 
 dotenv.config({ path: 'dev.env' });
 
@@ -13,6 +15,8 @@ app.use('/api/registers', registerRoutes);
 
 app.get("/", asyncHandler((req: Request, res: Response) => res.send("Hii")));
 
+app.use(errorMiddleware);
+
 // In local development, run the server
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
@@ -21,8 +25,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // For Vercel deployment
-import { VercelRequest, VercelResponse } from '@vercel/node';
-
 export default (req: VercelRequest, res: VercelResponse) => {
   return app(req, res);
 };
