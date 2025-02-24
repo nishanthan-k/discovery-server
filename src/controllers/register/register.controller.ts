@@ -1,39 +1,13 @@
 import { Request, Response } from "express";
-import asyncHandler from "../global/utils/asyncHandler";
+import asyncHandler from "../../global/utils/asyncHandler";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
+import { RegisterSchema, RegisterStatus } from "./register.schema";
+import { z } from "zod";
 
-const FILE_PATH = path.resolve(__dirname, "../services.json")
-enum RegisterStatus {
-    UP = "UP",
-    DOWN = "DOWN"
-}
-interface RegisterPayload {
-    serviceName: string
-    host: string
-    port: string
-    type: string
-    access: string
-    status?: RegisterStatus
-}
-// const preData = [
-//     {
-//         "serviceName": "public-api-gateway",
-//         "host": "localhost",
-//         "port": 8080,
-//         "type": "microservice",
-//         "access": "global",
-//     },
-//     {
-//         "serviceName": "user-service",
-//         "host": "localhost",
-//         "port": 8081,
-//         "type": "microservice",
-//         "access": "public",
-//         "tags": ["auth", "user"],
-//         "gateways": ["public-api-gateway"]
-//     }      
-// ]
+const FILE_PATH = path.resolve(__dirname, "../../services.json")
+
+type RegisterPayload = z.infer<typeof RegisterSchema>;
 
 export const readFileData = async () => {
     const data = await readFile(FILE_PATH, "utf-8");
@@ -44,8 +18,7 @@ export const registerService = asyncHandler(async (req: Request, res: Response) 
     const data = await readFileData();
     const services: RegisterPayload[] = data || [];
     const payload: RegisterPayload = req.body;
-    console.log(data)
-    console.log(req.body)
+
     const updatedServices = services.length > 0 ? services.map((e) => {
         console.log('1')
         if (e?.serviceName === payload.serviceName) {
@@ -55,7 +28,6 @@ export const registerService = asyncHandler(async (req: Request, res: Response) 
                 "host": payload.host,
                 "port": payload.port,
                 "type": payload.type,
-                "access": payload.access,
                 "status": RegisterStatus.UP
             }
         }

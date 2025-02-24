@@ -1,12 +1,3 @@
 [
-  {
-    "serviceName": "users",
-    "host": "localhost",
-    "port": 8081,
-    "type": "microservice",
-    "access": "public",
-    "gateways": [
-      "public-api-gateway"
-    ]
-  }
+  {}
 ]
