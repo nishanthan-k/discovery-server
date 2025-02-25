@@ -16,5 +16,6 @@ export const RegisterSchema = z.object({
     port: z.string({ required_error: "Port is required!" }).min(1, "Port cannot be empty!"),
     access: z.enum(["public", "private"], { message: "Access must be either public or private!" }),
     type: z.string({ required_error: "Type must be provided!" }).min(1, "Type cannot be empty!"),
-    lastHeartBeat: z.date().default(() => new Date()),
+    lastHeartBeat: z.number().default(() => Date.now()),
+    status: z.nativeEnum(RegisterStatus).default(() => RegisterStatus.UP),
   });
